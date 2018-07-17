@@ -3,12 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import Comment from './Comment';
 
 function PostDetail(props) {
-  const comments = props.post.comments
-    .filter(comment => !comment.data.stickied)
-    .slice(0, 3)
-    .map(comment => comment.data);
-
-  console.log(comments);
+  const comments = props.post.comments;
 
   const title = <h2>{props.post.title}</h2>;
   return (
