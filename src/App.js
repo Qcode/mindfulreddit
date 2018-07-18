@@ -123,7 +123,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>consciousreddit.com</h1>
+        <h1 className="App-header">
+          mindful<span className="red">reddit</span>
+        </h1>
         {this.state.chooseSubreddits ? (
           <SubredditForm fetchContent={this.handleSubredditRequests} />
         ) : (

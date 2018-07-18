@@ -1,0 +1,12 @@
+.post-container {
+  border-bottom: 1px solid #555555;
+}
+
+.post-details::after {
+  content: '...';
+  font-size: 30px;
+  display: block;
+  letter-spacing: 0.5rem;
+  text-align: center;
+  color: #ff4500;
+}

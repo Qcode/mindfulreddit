@@ -1,1 +1,1 @@
-# consciousreddit.com
+# mindfulreddit.com
