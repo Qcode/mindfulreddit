@@ -42,8 +42,11 @@ class App extends Component {
 
         const commentPromises = [];
 
-        topPostsFromSubreddits.forEach(subredditPosts => {
+        topPostsFromSubreddits.forEach((subredditPosts, index) => {
           subredditPosts.forEach(post => {
+            // This is for things such as /r/all, where the subreddit you entered
+            // doesn't necessarily match the name in the request
+            post.subreddit = subreddits[index];
             const promise = fetch(
               'https://www.reddit.com' +
                 post.permalink +
