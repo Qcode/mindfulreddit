@@ -11,9 +11,15 @@ function PostDetail(props) {
     <div className="post-container">
       <div className="post-details">
         {props.post.is_self ? title : <a href={props.post.url}>{title}</a>}
+        <p className="post-author">{props.post.author}</p>
         {props.post.is_self && <ReactMarkdown source={props.post.selftext} />}
       </div>
-      {comments.map(comment => <Comment comment={comment} />)}
+      {comments.map((comment, index) => (
+        <Comment
+          lastComment={index === comments.length - 1}
+          comment={comment}
+        />
+      ))}
     </div>
   );
 }

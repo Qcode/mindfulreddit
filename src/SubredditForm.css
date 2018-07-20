@@ -1,0 +1,15 @@
+.subreddit-form-label {
+  vertical-align: text-top;
+  height: 32px;
+  line-height: 1.1875em;
+  padding-top: 6px;
+}
+
+.subreddit-input {
+  margin-bottom: 10px;
+}
+
+.subreddit-form-button-container {
+  width: 145px;
+  margin-left: 18px;
+}

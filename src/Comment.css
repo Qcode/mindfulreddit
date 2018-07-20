@@ -1,0 +1,11 @@
+.comment:not(.comment-last)::after {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background-color: red;
+  display: block;
+}
+
+.comment-author {
+  font-style: italic;
+}

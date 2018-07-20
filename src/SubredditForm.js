@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Input from '@material-ui/core/Input';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import './SubredditForm.css';
 
 class SubredditForm extends Component {
   constructor(props) {
@@ -7,6 +11,7 @@ class SubredditForm extends Component {
     this.state = { subreddits: [] };
 
     this.handleInput = this.handleInput.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleInput(event, index) {
@@ -15,25 +20,55 @@ class SubredditForm extends Component {
     this.setState({ subreddits: newSubreddits });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.fetchContent(this.state.subreddits);
+  }
+
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
+      <form onSubmit={this.onSubmit}>
+        <p>Select three subreddits to see posts from.</p>
         {[...Array(3)].map((item, index) => (
-          <div>
-            <label>/r/</label>
-            <input
+          <div className="subreddit-input">
+            <label className="subreddit-form-label">/r/</label>
+            <Input
+              inputProps={{
+                spellCheck: false,
+                required: true,
+              }}
               onChange={event => this.handleInput(event, index)}
-              type="text"
+              classes={{ root: classes.root, underline: classes.underline }}
             />
           </div>
         ))}
-        <input
-          type="submit"
-          onClick={() => this.props.fetchContent(this.state.subreddits)}
-        />
-      </div>
+        <div className="subreddit-form-button-container">
+          <Button
+            type="submit"
+            variant="outlined"
+            color="primary"
+            className={classes.button}
+            fullWidth
+          >
+            See Posts
+          </Button>
+        </div>
+      </form>
     );
   }
 }
 
-export default SubredditForm;
+const styles = {
+  root: {
+    fontFamily: 'Josefin Sans',
+  },
+  underline: {
+    '&:after': {
+      borderBottom: '2px solid #ff4500',
+    },
+  },
+};
+
+export default withStyles(styles)(SubredditForm);

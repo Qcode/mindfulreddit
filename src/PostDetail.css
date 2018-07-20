@@ -10,3 +10,7 @@
   text-align: center;
   color: #ff4500;
 }
+
+.post-author {
+  font-style: italic;
+}
