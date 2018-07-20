@@ -6,10 +6,13 @@ import Comment from './Comment';
 function PostDetail(props) {
   const comments = props.post.comments;
 
+  const postClassName =
+    comments.length > 0 ? 'post-details' : 'post-details post-no-comments';
+
   const title = <h2>{props.post.title}</h2>;
   return (
     <div className="post-container">
-      <div className="post-details">
+      <div className={postClassName}>
         {props.post.is_self ? title : <a href={props.post.url}>{title}</a>}
         <p className="post-author">{props.post.author}</p>
         {props.post.is_self && <ReactMarkdown source={props.post.selftext} />}

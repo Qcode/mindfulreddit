@@ -2,7 +2,7 @@
   border-bottom: 1px solid #555555;
 }
 
-.post-details::after {
+.post-details:not(.post-no-comments)::after {
   content: '...';
   font-size: 30px;
   display: block;
