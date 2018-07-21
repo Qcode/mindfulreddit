@@ -23,7 +23,7 @@ class App extends Component {
 
     this.updateTime = this.updateTime.bind(this);
 
-    setInterval(this.updateTime, 10000);
+    setInterval(this.updateTime, 1000);
   }
 
   handleSubredditRequests(subreddits) {
@@ -113,7 +113,7 @@ class App extends Component {
       hoursStatement = '';
     }
 
-    if (minutes !== 0) {
+    if (minutes !== 0 && hours !== 0) {
       hoursStatement += ' and';
     }
 
@@ -123,6 +123,12 @@ class App extends Component {
       minutesStatement = ` ${minutes} minute`;
     } else if (minutes === 0) {
       minutesStatement = '';
+    }
+
+    if (minutes === 0 && hours === 0) {
+      return (
+        'You may view more posts in ' + Math.floor(timeLeft / 1000) + ' seconds'
+      );
     }
 
     return 'You may view more posts in' + hoursStatement + minutesStatement;
