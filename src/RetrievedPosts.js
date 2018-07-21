@@ -9,6 +9,7 @@ function RetrievedPosts(props) {
         {subredditPosts[0].subreddit}
       </h1>
       {subredditPosts.map(post => <PostDetail post={post} />)}
+      <p>{props.timeLeft}</p>
     </div>
   ));
 }
