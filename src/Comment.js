@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import './Comment.css';
 
@@ -11,5 +12,13 @@ function Comment(props) {
     </div>
   );
 }
+
+Comment.propTypes = {
+  lastComment: PropTypes.bool,
+  comment: PropTypes.shape({
+    author: PropTypes.string,
+    body: PropTypes.string,
+  }),
+};
 
 export default Comment;

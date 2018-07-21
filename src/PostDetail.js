@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import PropTypes from 'prop-types';
 import './PostDetail.css';
 import Comment from './Comment';
 
@@ -27,5 +28,18 @@ function PostDetail(props) {
     </div>
   );
 }
+
+PostDetail.propTypes = {
+  post: PropTypes.shape({
+    comments: PropTypes.arrayOf(
+      PropTypes.shape({ author: PropTypes.string, body: PropTypes.string }),
+    ),
+    title: PropTypes.string,
+    is_self: PropTypes.bool,
+    url: PropTypes.string,
+    author: PropTypes.string,
+    selftext: PropTypes.string,
+  }),
+};
 
 export default PostDetail;

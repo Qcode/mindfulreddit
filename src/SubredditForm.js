@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -33,7 +34,7 @@ class SubredditForm extends Component {
       <form className="subreddit-form" onSubmit={this.onSubmit}>
         <p>Select three subreddits to see posts from.</p>
         {[...Array(3)].map((item, index) => (
-          <div className="subreddit-input">
+          <div key={index} className="subreddit-input">
             <label className="subreddit-form-label">/r/</label>
             <Input
               inputProps={{
@@ -67,6 +68,16 @@ class SubredditForm extends Component {
     );
   }
 }
+
+SubredditForm.propTypes = {
+  fetchContent: PropTypes.func.isRequired,
+  classes: PropTypes.shape({
+    root: PropTypes.string,
+    underline: PropTypes.string,
+  }),
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+};
 
 const styles = {
   root: {

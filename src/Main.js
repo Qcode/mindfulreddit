@@ -7,24 +7,26 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
+    this.updateTime = this.updateTime.bind(this);
+    this.handleSubredditRequests = this.handleSubredditRequests.bind(this);
+
     this.state = {
       chooseSubreddits: true,
       subredditData: [],
       error: null,
       currentTime: Date.now(),
       loading: false,
+      timeIntervalId: setInterval(this.updateTime, 1000),
     };
-
-    this.handleSubredditRequests = this.handleSubredditRequests.bind(this);
 
     if (parseInt(localStorage.getItem('timeUntilNextFetch'), 10) > Date.now()) {
       this.state.chooseSubreddits = false;
       this.state.subredditData = JSON.parse(localStorage.getItem('lastData'));
     }
+  }
 
-    this.updateTime = this.updateTime.bind(this);
-
-    setInterval(this.updateTime, 1000);
+  componentWillUnmount() {
+    clearInterval(this.state.timeIntervalId);
   }
 
   handleSubredditRequests(subreddits) {
@@ -80,8 +82,7 @@ class Main extends Component {
         localStorage.setItem('timeUntilNextFetch', Date.now() + 1.08e7);
         localStorage.setItem('lastData', JSON.stringify(data[0]));
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
         this.setState({
           loading: false,
           error:
