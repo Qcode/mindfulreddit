@@ -11,6 +11,7 @@ class App extends Component {
       subredditData: [],
       error: null,
       currentTime: Date.now(),
+      loading: false,
     };
 
     this.handleSubredditRequests = this.handleSubredditRequests.bind(this);
@@ -29,6 +30,8 @@ class App extends Component {
     const subredditPromises = subreddits.map(reddit =>
       fetch('https://www.reddit.com/r/' + reddit + '.json'),
     );
+
+    this.setState({ loading: true });
 
     Promise.all(subredditPromises)
       .then(data => Promise.all(data.map(response => response.json())))
@@ -75,9 +78,13 @@ class App extends Component {
             'lastData',
             JSON.stringify(topPostsFromSubreddits),
           );
+          this.setState({ loading: false });
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ loading: false });
+        console.log(err);
+      });
   }
 
   getTimeLeft() {
@@ -130,7 +137,10 @@ class App extends Component {
           mindful<span className="red">reddit</span>
         </h1>
         {this.state.chooseSubreddits ? (
-          <SubredditForm fetchContent={this.handleSubredditRequests} />
+          <SubredditForm
+            loading={this.state.loading}
+            fetchContent={this.handleSubredditRequests}
+          />
         ) : (
           <RetrievedPosts data={this.state.subredditData} />
         )}

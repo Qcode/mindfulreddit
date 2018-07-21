@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import ReactLoading from 'react-loading';
 import './SubredditForm.css';
 
 class SubredditForm extends Component {
@@ -29,7 +30,7 @@ class SubredditForm extends Component {
     const { classes } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form className="subreddit-form" onSubmit={this.onSubmit}>
         <p>Select three subreddits to see posts from.</p>
         {[...Array(3)].map((item, index) => (
           <div className="subreddit-input">
@@ -50,11 +51,17 @@ class SubredditForm extends Component {
             variant="outlined"
             color="primary"
             className={classes.button}
-            fullWidth
           >
             See Posts
           </Button>
         </div>
+        {this.props.loading && (
+          <ReactLoading
+            className="subreddit-form-loading"
+            type="bubbles"
+            color="#ff4500"
+          />
+        )}
       </form>
     );
   }

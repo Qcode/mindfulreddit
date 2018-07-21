@@ -7,9 +7,13 @@
 
 .subreddit-input {
   margin-bottom: 10px;
+  margin-left: -18px;
 }
 
-.subreddit-form-button-container {
-  width: 145px;
-  margin-left: 18px;
+.subreddit-form {
+  text-align: center;
+}
+
+.subreddit-form-loading {
+  margin: auto;
 }
