@@ -64,8 +64,10 @@ function About() {
       </p>
       <p>
         The source for this website is available on{' '}
-        <a href="https://github.com/Qcode/mindfulreddit">GitHub</a>. Thank you
-        for your time.
+        <a href="https://github.com/Qcode/mindfulreddit">GitHub</a>. If you're
+        interested in my other projects or more pretentious ramblings, please
+        see <a href="https://rossevans.ca/">my personal site</a>. Thank you for
+        your time.
       </p>
       <footer>
         <NavLink className="" to="/">
