@@ -35,17 +35,17 @@ class App extends Component {
 
     Promise.all(subredditPromises)
       .then(data => Promise.all(data.map(response => response.json())))
-      .then(data => {
-        const topPostsFromSubreddits = data.map(subreddit =>
+      .then(data =>
+        data.map(subreddit =>
           subreddit.data.children
             .map(post => post.data)
             .filter(post => !post.stickied)
             .slice(0, 3),
-        );
-
+        ),
+      )
+      .then(data => {
         const commentPromises = [];
-
-        topPostsFromSubreddits.forEach((subredditPosts, index) => {
+        data.forEach((subredditPosts, index) => {
           subredditPosts.forEach(post => {
             // This is for things such as /r/all, where the subreddit you entered
             // doesn't necessarily match the name in the request
@@ -66,24 +66,26 @@ class App extends Component {
             commentPromises.push(promise);
           });
         });
-
-        Promise.all(commentPromises).then(() => {
-          this.setState({
-            subredditData: topPostsFromSubreddits,
-            chooseSubreddits: false,
-          });
-          // 1.08e7 = 3 hours in milliseconds
-          localStorage.setItem('timeUntilNextFetch', Date.now() + 1.08e7);
-          localStorage.setItem(
-            'lastData',
-            JSON.stringify(topPostsFromSubreddits),
-          );
-          this.setState({ loading: false });
+        return Promise.all([data, ...commentPromises]);
+      })
+      .then(data => {
+        this.setState({
+          subredditData: data[0],
+          chooseSubreddits: false,
+          loading: false,
+          error: null,
         });
+        // 1.08e7 = 3 hours in milliseconds
+        localStorage.setItem('timeUntilNextFetch', Date.now() + 1.08e7);
+        localStorage.setItem('lastData', JSON.stringify(data[0]));
       })
       .catch(err => {
-        this.setState({ loading: false });
-        console.log(err);
+        console.error(err);
+        this.setState({
+          loading: false,
+          error:
+            'Error fetching posts; please check the spelling of your subreddits',
+        });
       });
   }
 
@@ -138,6 +140,7 @@ class App extends Component {
         </h1>
         {this.state.chooseSubreddits ? (
           <SubredditForm
+            error={this.state.error}
             loading={this.state.loading}
             fetchContent={this.handleSubredditRequests}
           />

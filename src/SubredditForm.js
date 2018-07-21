@@ -62,6 +62,7 @@ class SubredditForm extends Component {
             color="#ff4500"
           />
         )}
+        {this.props.error && <p>{this.props.error}</p>}
       </form>
     );
   }
