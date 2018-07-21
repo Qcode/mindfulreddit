@@ -19,6 +19,7 @@ function PostDetail(props) {
       </div>
       {comments.map((comment, index) => (
         <Comment
+          key={comment.id}
           lastComment={index === comments.length - 1}
           comment={comment}
         />

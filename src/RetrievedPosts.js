@@ -2,13 +2,14 @@ import React from 'react';
 import PostDetail from './PostDetail';
 
 function RetrievedPosts(props) {
+  const generateKey = posts => posts.reduce((acc, cur) => acc + cur.id, '');
   return props.data.map(subredditPosts => (
-    <div>
+    <div key={generateKey(subredditPosts)}>
       <h1>
-        <span class="red">/r/</span>
+        <span className="red">/r/</span>
         {subredditPosts[0].subreddit}
       </h1>
-      {subredditPosts.map(post => <PostDetail post={post} />)}
+      {subredditPosts.map(post => <PostDetail key={post.id} post={post} />)}
       <p>{props.timeLeft}</p>
     </div>
   ));
