@@ -17,6 +17,7 @@ class Main extends Component {
       currentTime: Date.now(),
       loading: false,
       timeIntervalId: setInterval(this.updateTime, 1000),
+      timeLeftString: this.getTimeLeft(Date.now()),
     };
 
     if (parseInt(localStorage.getItem('timeUntilNextFetch'), 10) > Date.now()) {
@@ -27,6 +28,15 @@ class Main extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.timeIntervalId);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const newString = this.getTimeLeft(nextState.currentTime);
+    if (this.state.timeLeftString !== newString) {
+      this.setState({ timeLeftString: newString });
+      return true;
+    }
+    return false;
   }
 
   handleSubredditRequests(subreddits) {
@@ -46,6 +56,14 @@ class Main extends Component {
             .slice(0, 3),
         ),
       )
+      .then(data => {
+        data.forEach((subredditPosts, index) => {
+          if (subredditPosts.length === 0) {
+            throw new Error(`No posts in ${subredditPosts[index]}`);
+          }
+        });
+        return data;
+      })
       .then(data => {
         const commentPromises = [];
         data.forEach((subredditPosts, index) => {
@@ -92,15 +110,17 @@ class Main extends Component {
   }
 
   updateTime() {
-    this.setState({ currentTime: Date.now() });
+    this.setState({
+      currentTime: Date.now(),
+    });
   }
 
-  getTimeLeft() {
+  getTimeLeft(currentTime) {
     const hoursFromNow = localStorage.getItem('timeUntilNextFetch');
     const endTime = hoursFromNow
       ? parseInt(hoursFromNow, 10)
       : Date.now() + 1.08e7;
-    const timeLeft = endTime - this.state.currentTime;
+    const timeLeft = endTime - currentTime;
 
     if (timeLeft <= 0) {
       return 'You may view more posts now. Refresh the page to do so.';
@@ -151,7 +171,7 @@ class Main extends Component {
           />
         ) : (
           <RetrievedPosts
-            timeLeft={this.getTimeLeft()}
+            timeLeft={this.state.timeLeftString}
             data={this.state.subredditData}
           />
         )}

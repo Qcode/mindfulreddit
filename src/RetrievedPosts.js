@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PostDetail from './PostDetail';
 
 function RetrievedPosts(props) {
@@ -18,5 +19,12 @@ function RetrievedPosts(props) {
     </div>
   );
 }
+
+RetrievedPosts.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })),
+  ),
+  timeLeft: PropTypes.string,
+};
 
 export default RetrievedPosts;
