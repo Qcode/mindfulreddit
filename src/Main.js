@@ -17,7 +17,6 @@ class Main extends Component {
       currentTime: Date.now(),
       loading: false,
       timeIntervalId: setInterval(this.updateTime, 1000),
-      timeLeftString: this.getTimeLeft(Date.now()),
     };
 
     if (parseInt(localStorage.getItem('timeUntilNextFetch'), 10) > Date.now()) {
@@ -28,15 +27,6 @@ class Main extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.timeIntervalId);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const newString = this.getTimeLeft(nextState.currentTime);
-    if (this.state.timeLeftString !== newString) {
-      this.setState({ timeLeftString: newString });
-      return true;
-    }
-    return false;
   }
 
   handleSubredditRequests(subreddits) {
@@ -115,12 +105,12 @@ class Main extends Component {
     });
   }
 
-  getTimeLeft(currentTime) {
+  getTimeLeft() {
     const hoursFromNow = localStorage.getItem('timeUntilNextFetch');
     const endTime = hoursFromNow
       ? parseInt(hoursFromNow, 10)
       : Date.now() + 1.08e7;
-    const timeLeft = endTime - currentTime;
+    const timeLeft = endTime - this.state.currentTime;
 
     if (timeLeft <= 0) {
       return 'You may view more posts now. Refresh the page to do so.';
@@ -171,7 +161,7 @@ class Main extends Component {
           />
         ) : (
           <RetrievedPosts
-            timeLeft={this.state.timeLeftString}
+            timeLeft={this.getTimeLeft()}
             data={this.state.subredditData}
           />
         )}
