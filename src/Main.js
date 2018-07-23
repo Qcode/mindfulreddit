@@ -25,6 +25,10 @@ class Main extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.ReactGA.pageview('Main Page');
+  }
+
   componentWillUnmount() {
     clearInterval(this.state.timeIntervalId);
   }
@@ -163,6 +167,7 @@ class Main extends Component {
           <RetrievedPosts
             timeLeft={this.getTimeLeft()}
             data={this.state.subredditData}
+            ReactGA={this.props.ReactGA}
           />
         )}
         <footer>
