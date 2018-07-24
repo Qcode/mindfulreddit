@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SubredditForm from './SubredditForm';
 import RetrievedPosts from './RetrievedPosts';
 
@@ -23,6 +24,10 @@ class Main extends Component {
       this.state.chooseSubreddits = false;
       this.state.subredditData = JSON.parse(localStorage.getItem('lastData'));
     }
+  }
+
+  componentDidMount() {
+    this.props.ReactGA.pageview('Main Page');
   }
 
   componentWillUnmount() {
@@ -163,6 +168,7 @@ class Main extends Component {
           <RetrievedPosts
             timeLeft={this.getTimeLeft()}
             data={this.state.subredditData}
+            ReactGA={this.props.ReactGA}
           />
         )}
         <footer>
@@ -174,5 +180,9 @@ class Main extends Component {
     );
   }
 }
+
+Main.propTypes = {
+  ReactGA: PropTypes.shape({ pageview: PropTypes.func }).isRequired,
+};
 
 export default Main;
