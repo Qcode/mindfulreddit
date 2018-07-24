@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Main from './Main';
 import About from './About';
 import './App.css';
@@ -21,5 +22,9 @@ function App(props) {
     </div>
   );
 }
+
+App.propTypes = {
+  ReactGA: PropTypes.shape({ pageview: PropTypes.func }).isRequired,
+};
 
 export default App;

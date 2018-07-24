@@ -33,6 +33,7 @@ RetrievedPosts.propTypes = {
     PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })),
   ),
   timeLeft: PropTypes.string,
+  ReactGA: PropTypes.shape({ pageview: PropTypes.func }).isRequired,
 };
 
 export default RetrievedPosts;

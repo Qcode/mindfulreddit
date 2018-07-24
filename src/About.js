@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 class About extends Component {
@@ -87,5 +88,9 @@ class About extends Component {
     );
   }
 }
+
+About.propTypes = {
+  ReactGA: PropTypes.shape({ pageview: PropTypes.func }).isRequired,
+};
 
 export default About;
